@@ -4,25 +4,99 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Farmer App - Dashboard</title>
-<link rel="stylesheet" href="style.css">
+<style>
+  body { font-family: Arial, sans-serif; background:#f5f5f5; margin:0; padding:0; }
+  .container { max-width:1200px; margin:20px auto; padding:20px; }
+  h1 { color:#b8860b; text-align:center; margin-bottom:30px; }
+
+  #weatherCard { background:#fff8dc; border:2px solid #daa520; border-radius:15px; padding:20px; max-width:400px; margin:0 auto 30px; box-shadow:0 4px 12px rgba(0,0,0,0.2); text-align:center; }
+  #weatherCard h3 { color:#b8860b; margin-bottom:10px; }
+  #weatherCard p { margin:5px 0; }
+
+  .stats { display:flex; justify-content:space-around; flex-wrap:wrap; gap:20px; margin-bottom:40px; }
+  .stat-card { background:#fff8dc; border:2px solid #daa520; border-radius:15px; padding:20px; width:220px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.2); }
+  .stat-card h3 { color:#b8860b; margin-bottom:10px; }
+  .stat-card p { margin:5px 0; font-size:1rem; }
+
+  #alerts { background:#fff; padding:20px; border-radius:15px; box-shadow:0 4px 12px rgba(0,0,0,0.2); margin-bottom:40px; }
+  #alerts h2 { color:#b8860b; margin-bottom:10px; }
+  #alerts ul { list-style:none; padding-left:0; }
+  #alerts ul li { padding:8px 0; border-bottom:1px solid #ddd; }
+
+  .nav-cards { display:flex; justify-content:space-evenly; flex-wrap:wrap; gap:20px; }
+  .nav-card { background:#fff8dc; border:2px solid #daa520; border-radius:15px; padding:20px; width:200px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.2); cursor:pointer; transition: transform 0.3s, box-shadow 0.3s; }
+  .nav-card:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.3);}
+  .nav-card h3 { color:#b8860b; margin-bottom:10px; }
+  .nav-card p { font-size:0.9rem; }
+</style>
 </head>
 <body>
 <div class="container">
-  <aside class="sidebar">
-    <h2 class="logo">🌾 Farmer App</h2>
-    <ul class="menu">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="dashboard.html" class="active">Dashboard</a></li>
-      <li><a href="advisory.html">Advisory</a></li>
-      <li><a href="irrigation.html">Irrigation</a></li>
-      <li><a href="knowledge.html">Knowledge Hub</a></li>
-    </ul>
-  </aside>
+  <h1>Dashboard</h1>
 
-  <main class="content">
-    <h1>Dashboard</h1>
-    <p>🌡️ Weather: 30°C <br> 🌧️ Rain expected <br> 💧 Humidity: 80%</p>
-  </main>
+  <div id="weatherCard">
+    <h3>Weather in Your Farm</h3>
+    <p id="weatherInfo">Loading...</p>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card"><h3>Soil Moisture</h3><p>65%</p></div>
+    <div class="stat-card"><h3>Crop Health</h3><p>Good</p></div>
+    <div class="stat-card"><h3>Irrigation Status</h3><p>Normal</p></div>
+    <div class="stat-card"><h3>Fertilizer Schedule</h3><p>Next: 3 days</p></div>
+  </div>
+
+  <div id="alerts">
+    <h2>Recent Alerts</h2>
+    <ul>
+      <li>🌧️ Rain expected tomorrow - Check irrigation system</li>
+      <li>⚠️ High winds today - Secure equipment</li>
+      <li>💧 Low soil moisture in Field A</li>
+    </ul>
+  </div>
+
+  <div class="nav-cards">
+    <div class="nav-card" onclick="location.href='advisory.html'"><h3>Advisory</h3><p>View weather & farming tips</p></div>
+    <div class="nav-card" onclick="location.href='irrigation.html'"><h3>Irrigation</h3><p>Monitor water systems</p></div>
+    <div class="nav-card" onclick="location.href='knowledge.html'"><h3>Knowledge Hub</h3><p>Learn best practices</p></div>
+  </div>
 </div>
+
+<script>
+const apiKey = "867327a6239275c84a68a583e817e0b9";
+
+function getSuggestion(desc){
+  desc = desc.toLowerCase();
+  if(desc.includes("rain")) return "💧 Rainy - check irrigation";
+  if(desc.includes("clear") || desc.includes("sun")) return "☀️ Clear - good for field work";
+  if(desc.includes("cloud")) return "🌤️ Cloudy - monitor fields";
+  if(desc.includes("storm") || desc.includes("thunder")) return "⚠️ Storm - secure equipment";
+  if(desc.includes("snow")) return "❄️ Snow - protect sensitive crops";
+  return "🌱 Regular farm care";
+}
+
+function loadWeather(city=""){
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
+  fetch(url).then(res=>res.json()).then(data=>{
+    const info = document.getElementById("weatherInfo");
+    if(data.cod===200){
+      const desc = data.weather[0].description;
+      const suggestion = getSuggestion(desc);
+      info.innerHTML = `
+        📍 ${data.name}, ${data.sys.country}<br>
+        🌡️ Temp: ${data.main.temp}°C<br>
+        💧 Humidity: ${data.main.humidity}%<br>
+        🌬️ Wind: ${data.wind.speed} m/s<br>
+        🌱 Suggestion: ${suggestion}
+      `;
+    } else { info.innerHTML = "❌ Weather data not available"; }
+  }).catch(()=>{ document.getElementById("weatherInfo").innerHTML="⚠️ Error fetching weather"; });
+}
+
+window.addEventListener("DOMContentLoaded", ()=>{
+  const savedCity = localStorage.getItem("defaultCity") || "Hyderabad";
+  loadWeather(savedCity);
+});
+</script>
 </body>
 </html>

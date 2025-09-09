@@ -1,23 +1,93 @@
-<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login - Farmer App</title>
-<link rel="stylesheet" href="style.css">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
+  body { background:#f0f4f8; display:flex; justify-content:center; align-items:center; min-height:100vh; }
+  .auth-container { background:white; padding:30px 25px; border-radius:15px; box-shadow:0 6px 15px rgba(0,0,0,0.2); width:100%; max-width:400px; }
+  h2 { color:#b8860b; margin-bottom:20px; text-align:center; }
+  input { width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; outline:none; }
+  button { width:100%; padding:12px; border:none; border-radius:8px; background:#daa520; color:white; font-weight:bold; cursor:pointer; }
+  button:hover { background:#b8860b; }
+  p { text-align:center; margin-top:10px; font-size:0.9rem; }
+  a { color:#b8860b; text-decoration:none; font-weight:bold; }
+</style>
 </head>
-<body class="auth-page">
-<div class="auth-container">
+<body>
+
+<div class="auth-container" id="loginContainer">
   <h2>🌾 Farmer App - Login</h2>
   <form onsubmit="loginUser(event)">
     <input type="text" id="loginUsername" placeholder="Username" required>
     <input type="password" id="loginPassword" placeholder="Password" required>
     <button type="submit">Login</button>
   </form>
-  <p>Don’t have an account? <a href="register.html">Register</a></p>
+  <p>Don’t have an account? <a href="#" onclick="toggleForms()">Register</a></p>
 </div>
-<script src="script.js"></script>
+
+<div class="auth-container" id="registerContainer" style="display:none;">
+  <h2>🌾 Farmer App - Register</h2>
+  <form onsubmit="registerUser(event)">
+    <input type="text" id="regUsername" placeholder="Username" required>
+    <input type="password" id="regPassword" placeholder="Password" required>
+    <button type="submit">Register</button>
+  </form>
+  <p>Already have an account? <a href="#" onclick="toggleForms()">Login</a></p>
+</div>
+
+<script>
+/* Toggle between login and register forms */
+function toggleForms(){
+  const login = document.getElementById("loginContainer");
+  const register = document.getElementById("registerContainer");
+  if(login.style.display === "none"){
+    login.style.display = "block";
+    register.style.display = "none";
+  } else {
+    login.style.display = "none";
+    register.style.display = "block";
+  }
+}
+
+/* Register User */
+function registerUser(e){
+  e.preventDefault();
+  const username = document.getElementById("regUsername").value.trim();
+  const password = document.getElementById("regPassword").value;
+  if(localStorage.getItem("user_"+username)){
+    alert("❌ Username already exists!");
+    return;
+  }
+  localStorage.setItem("user_"+username, password);
+  alert("✅ Registration successful! Please login.");
+  toggleForms();
+}
+
+/* Login User */
+function loginUser(e){
+  e.preventDefault();
+  const username = document.getElementById("loginUsername").value.trim();
+  const password = document.getElementById("loginPassword").value;
+  const storedPass = localStorage.getItem("user_"+username);
+  if(storedPass && storedPass === password){
+    localStorage.setItem("loggedInUser", username);
+    window.location.href = "home.html"; // redirect to Home page
+  } else {
+    alert("❌ Invalid credentials!");
+  }
+}
+
+/* If already logged in, redirect to Home */
+window.addEventListener("DOMContentLoaded", ()=>{
+  const loggedUser = localStorage.getItem("loggedInUser");
+  if(loggedUser){
+    window.location.href = "index.html";
+  }
+});
+</script>
+
 </body>
 </html>
-  
