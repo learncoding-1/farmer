@@ -5,191 +5,189 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Farmer App - Home</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
 
     body {
-      background: #fff;
+      background: url('https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg') center/cover no-repeat fixed;
       color: #222;
     }
 
-    /* Background Image */
-    .bg-image {
-      width: 100vw;
-      height: 550px;
-      background: url('https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg')
-        no-repeat center center;
-      background-size: cover;
-      position: relative;
+    body::after {
+      content: "";
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.25); z-index: -1;
     }
 
-    /* Navbar */
-    .navbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 3rem;
-      background: rgba(255, 255, 255, 0.9);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    .navbar .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #2e7d32;
-    }
-
-    .navbar ul {
-      list-style: none;
-      display: flex;
-      gap: 1.5rem;
-      align-items: center;
-    }
-
-    .navbar ul li a {
-      text-decoration: none;
-      color: #222;
-      font-weight: 600;
-      transition: color 0.3s;
-    }
-
-    .navbar ul li a:hover,
-    .navbar ul li a.active {
-      color: #2e7d32;
-    }
-
-    /* Search Box inside navbar */
-    .search-box {
-      display: flex;
-      align-items: center;
-      margin-left: 1rem;
-    }
-
-    .search-box input {
-      padding: 5px 10px;
-      border: 1px solid #ccc;
-      border-radius: 20px 0 0 20px;
-      outline: none;
-      font-size: 1rem;
-    }
-
-    .search-box button {
-      border: none;
-      background: #2e7d32;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 0 20px 20px 0;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-
-    /* Profile Dropdown */
-    .profile {
-      position: relative;
-      cursor: pointer;
-    }
-
-    .profile img {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-    }
-
-    .dropdown {
-      display: none;
-      position: absolute;
-      right: 0;
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      margin-top: 10px;
-      z-index: 20;
-    }
-
-    .dropdown button {
+    .hero {
       width: 100%;
-      padding: 10px;
-      background: none;
-      border: none;
-      text-align: left;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .dropdown button:hover {
-      background: #f5f5f5;
-    }
-
-    /* Welcome Text on Image */
-    .welcome-text {
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 40px 20px;
       text-align: center;
       color: white;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    }
+    .hero h1 {
+      font-size: 3.5rem; font-weight: 700;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+    }
+    .hero p {
+      font-size: 1.5rem; margin-bottom: 30px;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
     }
 
-    .welcome-text h1 {
-      font-size: 3.5rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
+    .search-box {
+      display: flex; justify-content: center; align-items: center;
+      margin-bottom: 50px; width: 100%; max-width: 600px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      border-radius: 50px; overflow: hidden;
+      background: rgba(255,255,255,0.9); transition: transform 0.3s;
     }
+    .search-box:hover { transform: scale(1.02); }
+    .search-box input {
+      flex: 1; padding: 15px 20px; border: none; font-size: 1rem; border-radius: 50px 0 0 50px;
+      outline: none;
+    }
+    .search-box button {
+      padding: 15px 25px; border: none; background: #daa520; color: white; font-size: 1rem;
+      font-weight: bold; border-radius: 0 50px 50px 0; cursor: pointer; transition: background 0.3s;
+    }
+    .search-box button:hover { background: #b8860b; }
 
-    .welcome-text p {
-      font-size: 1.2rem;
-      font-weight: 400;
+   #weatherResult {
+  margin-bottom: 60px;
+  padding: 20px 25px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  display: inline-block;
+  color: #333;
+  font-size: 14px;
+  min-width: 250px;
+  max-width: 350px;
+  text-align: left;
+  transition: transform 0.3s;
+}
+
+#weatherResult:hover {
+  transform: scale(1.03);
+}
+
+#weatherResult h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #b8860b;
+}
+
+#weatherResult p {
+  margin: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.95rem;
+}
+
+
+    .cards {
+      display: flex; justify-content: space-evenly; flex-wrap: wrap; gap: 20px;
+      width: 100%; max-width: 1200px; margin: 0 auto 50px; padding: 0 20px;
     }
+    .card {
+      background: #fff8dc; border: 2px solid #daa520; border-radius: 20px;
+      padding: 25px; width: 220px; text-align: center;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3); cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-8px); box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+    }
+    .card h3 { margin-bottom: 10px; color: #b8860b; font-size: 1.2rem; }
+    .card p { font-size: 0.95rem; color: #333; }
+
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="logo">🌾 Farmer App</div>
-    <ul>
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="advisory.html">Advisory</a></li>
-      <li><a href="irrigation.html">Irrigation</a></li>
-      <li><a href="knowledge.html">Knowledge Hub</a></li>
+  <section class="hero">
+    <h1>Welcome to Agriculture Farm</h1>
+    <p>THE BEST AGRICULTURE PRODUCTS</p>
 
-      <!-- Search Box -->
-      <li>
-        <form id="weatherForm" class="search-box">
-          <input type="text" id="locationInput" placeholder="Enter city..." required>
-          <button type="submit">Search</button>
-        </form>
-      </li>
+    <form class="search-box" id="weatherForm">
+      <input type="text" id="locationInput" placeholder="Enter city..." required>
+      <button type="submit">Search</button>
+    </form>
 
-      <!-- Profile Icon -->
-      <li class="profile" id="profileMenu">
-        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile">
-        <div class="dropdown" id="dropdownMenu">
-          <button onclick="logoutUser()">Logout</button>
-        </div>
-      </li>
-    </ul>
-  </header>
+    <div id="weatherResult"></div>
 
-  <!-- Background Image with Welcome Text -->
-  <div class="bg-image">
-    <div class="welcome-text">
-      <p>THE BEST AGRICULTURE PRODUCTS</p>
-      <h1>WELCOME TO AGRICULTURE FARM</h1>
-      <div id="weatherResult" style="padding:20px; font-size:18px;"></div>
+    <div class="cards">
+      <div class="card" onclick="location.href='dashboard.html'">
+        <h3>Dashboard</h3>
+        <p>View your farm statistics and alerts.</p>
+      </div>
+      <div class="card" onclick="location.href='advisory.html'">
+        <h3>Advisory</h3>
+        <p>Check upcoming weather and farming tips.</p>
+      </div>
+      <div class="card" onclick="location.href='irrigation.html'">
+        <h3>Irrigation</h3>
+        <p>Manage and monitor your irrigation system.</p>
+      </div>
+      <div class="card" onclick="location.href='knowledge.html'">
+        <h3>Knowledge Hub</h3>
+        <p>Learn best farming practices and tips.</p>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- External JS -->
-  <script src="script.js"></script>
+  <script>
+    const apiKey = "867327a6239275c84a68a583e817e0b9";
+
+    function getSuggestion(description) {
+      description = description.toLowerCase();
+      if(description.includes("rain")) return "💧 Consider irrigation & cover crops";
+      if(description.includes("clear") || description.includes("sun")) return "☀️ Good for planting and harvesting";
+      if(description.includes("cloud")) return "🌤️ Moderate activity, monitor fields";
+      if(description.includes("storm") || description.includes("thunder")) return "⚠️ Secure equipment & protect crops";
+      if(description.includes("snow")) return "❄️ Protect sensitive plants";
+      return "🌱 Regular farm care";
+    }
+
+    function loadCurrentWeather(city="Hyderabad") {
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${apiKey}&units=metric`;
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          const weatherDiv = document.getElementById("weatherResult");
+          if(data.cod !== 200) {
+            weatherDiv.innerHTML = "❌ City not found";
+            return;
+          }
+          const desc = data.weather[0].description;
+          const suggestion = getSuggestion(desc);
+          weatherDiv.innerHTML = `
+            <p>📍 City: ${data.name}</p>
+            <p>🌡️ Temp: ${data.main.temp}°C</p>
+            <p>💧 Humidity: ${data.main.humidity}%</p>
+            <p>🌬️ Wind: ${data.wind.speed} m/s</p>
+            <p>🌱 Suggestion: ${suggestion}</p>
+          `;
+        })
+        .catch(() => {
+          document.getElementById("weatherResult").innerHTML = "⚠️ Error fetching weather";
+        });
+    }
+
+    document.getElementById("weatherForm").addEventListener("submit", e=>{
+      e.preventDefault();
+      const city = document.getElementById("locationInput").value.trim();
+      if(city) loadCurrentWeather(city);
+    });
+
+    window.addEventListener("DOMContentLoaded", ()=>{
+      loadCurrentWeather();
+    });
+  </script>
+
 </body>
 </html>
