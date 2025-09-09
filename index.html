@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmer App - Home</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #fff;
+      color: #222;
+    }
+
+    /* Background Image */
+    .bg-image {
+      width: 100vw;
+      height: 550px;
+      background: url('https://images.pexels.com/photos/440731/pexels-photo-440731.jpeg')
+        no-repeat center center;
+      background-size: cover;
+      position: relative;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 3rem;
+      background: rgba(255, 255, 255, 0.9);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .navbar .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #2e7d32;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .navbar ul li a {
+      text-decoration: none;
+      color: #222;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .navbar ul li a:hover,
+    .navbar ul li a.active {
+      color: #2e7d32;
+    }
+
+    /* Search Box inside navbar */
+    .search-box {
+      display: flex;
+      align-items: center;
+      margin-left: 1rem;
+    }
+
+    .search-box input {
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 20px 0 0 20px;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    .search-box button {
+      border: none;
+      background: #2e7d32;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 0 20px 20px 0;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    /* Profile Dropdown */
+    .profile {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .profile img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-top: 10px;
+      z-index: 20;
+    }
+
+    .dropdown button {
+      width: 100%;
+      padding: 10px;
+      background: none;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .dropdown button:hover {
+      background: #f5f5f5;
+    }
+
+    /* Welcome Text on Image */
+    .welcome-text {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    }
+
+    .welcome-text h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-text p {
+      font-size: 1.2rem;
+      font-weight: 400;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">🌾 Farmer App</div>
+    <ul>
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="advisory.html">Advisory</a></li>
+      <li><a href="irrigation.html">Irrigation</a></li>
+      <li><a href="knowledge.html">Knowledge Hub</a></li>
+
+      <!-- Search Box -->
+      <li>
+        <form id="weatherForm" class="search-box">
+          <input type="text" id="locationInput" placeholder="Enter city..." required>
+          <button type="submit">Search</button>
+        </form>
+      </li>
+
+      <!-- Profile Icon -->
+      <li class="profile" id="profileMenu">
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile">
+        <div class="dropdown" id="dropdownMenu">
+          <button onclick="logoutUser()">Logout</button>
+        </div>
+      </li>
+    </ul>
+  </header>
+
+  <!-- Background Image with Welcome Text -->
+  <div class="bg-image">
+    <div class="welcome-text">
+      <p>THE BEST AGRICULTURE PRODUCTS</p>
+      <h1>WELCOME TO AGRICULTURE FARM</h1>
+      <div id="weatherResult" style="padding:20px; font-size:18px;"></div>
+    </div>
+  </div>
+
+  <!-- External JS -->
+  <script src="script.js"></script>
+</body>
+</html>
