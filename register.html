@@ -1,22 +1,146 @@
-<!-- register.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Register - Farmer App</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmer App - Register</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: url('https://i.pinimg.com/1200x/19/a9/e5/19a9e5c52b3689ed0741300aedc11ec1.jpg') no-repeat center center/cover;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+   nav {
+  width: 100px;
+  position: absolute;        /* Position relative to the page */
+  margin: 20px;                 /* Distance from top */
+  right: 20px;               /* Distance from right */
+  padding: 15px 30px;
+  display: flex;
+  justify-content: flex-end; /* Align items inside to the right */
+  background: rgba(250, 246, 246, 0.15);
+  border-radius: 30px;
+  backdrop-filter: blur(10px);
+  z-index: 1000;             /* Ensure it stays above other elements */
+}
+
+    nav .brand { font-weight: bold; font-size: 1.3rem; }
+    nav .menu { display: flex; gap: 20px; }
+    nav .menu a { color: white; text-decoration: none; font-weight: 500; transition: 0.3s; }
+    nav .menu a:hover { color: #a5f2a5; }
+    nav .time { font-style: italic; }
+
+    .weather-check {
+      margin: 60px auto 20px;
+      width: 60%;
+      text-align: center;
+    }
+
+   .weather-check input {
+      width: 500px;;
+  position: absolute;        /* Position relative to the page */
+  margin: 20px;                 /* Distance from top */
+  left: 20px;               /* Distance from right */
+  padding: 15px 30px;
+  display: flex;
+  justify-content: flex-end; /* Align items inside to the right */
+  background: rgba(40, 28, 28, 0.15);
+  border-radius: 30px;
+  backdrop-filter: blur(10px);
+      
+    }
+
+    .weather-check input::placeholder { color: rgba(255,255,255,0.8); }
+
+    .auth-container {
+      margin: 30px auto;
+      text-align: center;
+      padding: 40px;
+      
+      border-radius: 20px;
+      max-width: 400px;
+    }
+
+    h2 { margin-bottom: 20px; font-size: 2rem; }
+
+    
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 20px;
+      border: 1px solid rgba(121, 116, 116, 0.5);
+      font-size: 1rem;
+    }
+
+    input { background: rgba(255,255,255,0.15); color: white; }
+
+    button {
+      background: transparent;
+      border: 1px solid #9ccf9b;
+      color: #9ccf9b;
+      font-weight: bold;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover { background: #9ccf9b; color: black; }
+
+    a { color: #9ccf9b; font-weight: bold; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
 </head>
-<body class="auth-page">
-<div class="auth-container">
-  <h2>🌾 Farmer App - Register</h2>
-  <form onsubmit="registerUser(event)">
-    <input type="text" id="regUsername" placeholder="Username" required>
-    <input type="password" id="regPassword" placeholder="Password" required>
-    <button type="submit">Register</button>
-  </form>
-  <p>Already have an account? <a href="login.html">Login</a></p>
-</div>
-<script src="script.js"></script>
+<body>
+  <nav>
+    <div class="menu">
+      <div class="time" id="indiaTime"></div>
+    </div>
+  </nav>
+  <br/>
+
+  <div class="weather-check">
+    <input type="text" placeholder=" Quick weather check...">
+  </div>
+
+  <br/><br/>
+  <div class="auth-container">
+    <h2>Register</h2>
+    <form onsubmit="registerUser(event)">
+      <input type="text" id="regUsername" placeholder="Username" required>
+      <input type="password" id="regPassword" placeholder="Password" required>
+      <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+  </div>
+
+  <script>
+    function registerUser(e){
+      e.preventDefault();
+      const username = document.getElementById("regUsername").value.trim();
+      const password = document.getElementById("regPassword").value;
+
+      if(localStorage.getItem("user_"+username)){
+        alert("❌ Username already exists!");
+        return;
+      }
+
+      localStorage.setItem("user_"+username, password);
+      alert("✅ Registration successful! Please login.");
+      window.location.href = "login.html";
+    }
+
+    function updateTime(){
+      const options = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit' };
+      const now = new Date().toLocaleTimeString('en-IN', options);
+      document.getElementById("indiaTime").textContent = now;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+  </script>
 </body>
 </html>

@@ -1,93 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - Farmer App</title>
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family:Arial,sans-serif; }
-  body { background:#f0f4f8; display:flex; justify-content:center; align-items:center; min-height:100vh; }
-  .auth-container { background:white; padding:30px 25px; border-radius:15px; box-shadow:0 6px 15px rgba(0,0,0,0.2); width:100%; max-width:400px; }
-  h2 { color:#b8860b; margin-bottom:20px; text-align:center; }
-  input { width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; outline:none; }
-  button { width:100%; padding:12px; border:none; border-radius:8px; background:#daa520; color:white; font-weight:bold; cursor:pointer; }
-  button:hover { background:#b8860b; }
-  p { text-align:center; margin-top:10px; font-size:0.9rem; }
-  a { color:#b8860b; text-decoration:none; font-weight:bold; }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farmer App - Login</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: url('https://i.pinimg.com/1200x/19/a9/e5/19a9e5c52b3689ed0741300aedc11ec1.jpg') no-repeat center center/cover;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+   /* Navbar */
+nav {
+  width: 100px;
+  position: absolute;        /* Position relative to the page */
+  margin: 20px;                 /* Distance from top */
+  right: 20px;               /* Distance from right */
+  padding: 15px 30px;
+  display: flex;
+  justify-content: flex-end; /* Align items inside to the right */
+  background: rgba(250, 246, 246, 0.15);
+  border-radius: 30px;
+  backdrop-filter: blur(10px);
+  z-index: 1000;             /* Ensure it stays above other elements */
+}
+
+
+    nav .brand {
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+
+    nav .menu {
+      display:flex;
+      gap: 10px;
+    }
+
+    nav .menu a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav .menu a:hover {
+      color: #a5f2a5;
+    }
+
+    nav .time {
+      font-style: italic;
+    }
+
+    /* Weather search style */
+    .weather-check {
+      margin: 60px auto 20px;
+      width: 60%;
+      text-align: center;
+    }
+
+    .weather-check input {
+      width: 500px;;
+  position: absolute;        /* Position relative to the page */
+  margin: 20px;                 /* Distance from top */
+  left: 20px;               /* Distance from right */
+  padding: 15px 30px;
+  display: flex;
+  justify-content: flex-end; /* Align items inside to the right */
+  background: rgba(40, 28, 28, 0.15);
+  border-radius: 30px;
+  backdrop-filter: blur(10px);
+      
+    }
+
+    .weather-check input::placeholder {
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* Auth form */
+    .auth-container {
+      margin: 30px auto;
+      text-align: center;
+      padding: 40px;
+      border-radius: 20px;
+      max-width: 400px;
+    }
+
+    h2 { margin-bottom: 20px; font-size: 2rem; }
+
+    input, button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 20px;
+      border: 1px solid rgba(121, 116, 116, 0.5);
+      font-size: 1rem;
+    }
+
+    input {
+      background: rgba(255,255,255,0.15);
+      color: white;
+    }
+
+    button {
+      background: transparent;
+      border: 1px solid #9ccf9b;
+      color: #9ccf9b;
+      font-weight: bold;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #9ccf9b;
+      color: black;
+    }
+
+    a { color: #9ccf9b; font-weight: bold; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
 </head>
 <body>
+  <nav>
+    <div class="menu">
+      <div class="time" id="indiaTime"></div>
+    </div>
+  </nav>
+  <br/>
 
-<div class="auth-container" id="loginContainer">
-  <h2>🌾 Farmer App - Login</h2>
-  <form onsubmit="loginUser(event)">
-    <input type="text" id="loginUsername" placeholder="Username" required>
-    <input type="password" id="loginPassword" placeholder="Password" required>
-    <button type="submit">Login</button>
-  </form>
-  <p>Don’t have an account? <a href="#" onclick="toggleForms()">Register</a></p>
-</div>
+  <div class="weather-check">
+    <input type="" placeholder=" HEYY LOGIN FASTTT">
+  </div>
+  <br/>
+  <br/>
 
-<div class="auth-container" id="registerContainer" style="display:none;">
-  <h2>🌾 Farmer App - Register</h2>
-  <form onsubmit="registerUser(event)">
-    <input type="text" id="regUsername" placeholder="Username" required>
-    <input type="password" id="regPassword" placeholder="Password" required>
-    <button type="submit">Register</button>
-  </form>
-  <p>Already have an account? <a href="#" onclick="toggleForms()">Login</a></p>
-</div>
+  <div class="auth-container">
+    <h2>Login</h2>
+    <form onsubmit="loginUser(event)">
+      <input type="text" id="loginUsername" placeholder="Username" required>
+      <input type="password" id="loginPassword" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <p>Don’t have an account? <a href="register.html">Register</a></p>
+  </div>
 
-<script>
-/* Toggle between login and register forms */
-function toggleForms(){
-  const login = document.getElementById("loginContainer");
-  const register = document.getElementById("registerContainer");
-  if(login.style.display === "none"){
-    login.style.display = "block";
-    register.style.display = "none";
-  } else {
-    login.style.display = "none";
-    register.style.display = "block";
-  }
-}
+  <script>
+    function loginUser(e){
+      e.preventDefault();
+      const username = document.getElementById("loginUsername").value.trim();
+      const password = document.getElementById("loginPassword").value;
+      const storedPass = localStorage.getItem("user_"+username);
 
-/* Register User */
-function registerUser(e){
-  e.preventDefault();
-  const username = document.getElementById("regUsername").value.trim();
-  const password = document.getElementById("regPassword").value;
-  if(localStorage.getItem("user_"+username)){
-    alert("❌ Username already exists!");
-    return;
-  }
-  localStorage.setItem("user_"+username, password);
-  alert("✅ Registration successful! Please login.");
-  toggleForms();
-}
+      if(storedPass && storedPass === password){
+        localStorage.setItem("loggedInUser", username);
+        window.location.href = "index.html";
+      } else {
+        alert(" Invalid credentials!");
+      }
+    }
 
-/* Login User */
-function loginUser(e){
-  e.preventDefault();
-  const username = document.getElementById("loginUsername").value.trim();
-  const password = document.getElementById("loginPassword").value;
-  const storedPass = localStorage.getItem("user_"+username);
-  if(storedPass && storedPass === password){
-    localStorage.setItem("loggedInUser", username);
-    window.location.href = "home.html"; // redirect to Home page
-  } else {
-    alert("❌ Invalid credentials!");
-  }
-}
-
-/* If already logged in, redirect to Home */
-window.addEventListener("DOMContentLoaded", ()=>{
-  const loggedUser = localStorage.getItem("loggedInUser");
-  if(loggedUser){
-    window.location.href = "index.html";
-  }
-});
-</script>
-
+    function updateTime(){
+      const options = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute:'2-digit' };
+      const now = new Date().toLocaleTimeString('en-IN', options);
+      document.getElementById("indiaTime").textContent = now;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+  </script>
 </body>
 </html>

@@ -23,6 +23,41 @@
   #alerts ul { list-style:none; padding-left:0; }
   #alerts ul li { padding:8px 0; border-bottom:1px solid #ddd; }
 
+  /* Finance Tracker */
+  .finance-card {
+    background:#fff8dc;
+    border:2px solid #daa520;
+    border-radius:15px;
+    padding:20px;
+    max-width:400px;
+    margin:30px auto;
+    box-shadow:0 6px 15px rgba(0,0,0,0.2);
+  }
+  .finance-card h2 {
+    text-align:center; 
+    color:#b8860b;
+    margin-bottom:15px;
+  }
+  .input-group {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:10px;
+  }
+  .input-group label {
+    flex:1; color:#444; font-size:0.9rem;
+  }
+  .input-group input {
+    flex:1; padding:6px; border:1px solid #ccc; border-radius:6px; text-align:right;
+  }
+  .result-box {
+    margin-top:15px;
+    padding:15px;
+    background:#fff;
+    border-radius:10px;
+    text-align:center;
+    font-size:0.95rem;
+    box-shadow:inset 0 2px 6px rgba(0,0,0,0.1);
+  }
+
   .nav-cards { display:flex; justify-content:space-evenly; flex-wrap:wrap; gap:20px; }
   .nav-card { background:#fff8dc; border:2px solid #daa520; border-radius:15px; padding:20px; width:200px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.2); cursor:pointer; transition: transform 0.3s, box-shadow 0.3s; }
   .nav-card:hover { transform:translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.3);}
@@ -53,6 +88,48 @@
       <li>⚠️ High winds today - Secure equipment</li>
       <li>💧 Low soil moisture in Field A</li>
     </ul>
+  </div>
+
+  <!-- Expense & Yield Tracker -->
+  <div class="finance-card">
+    <h2>📊 Expense & Yield Tracker</h2>
+
+    <div class="input-group">
+      <label>Seeds (₹)</label>
+      <input type="number" id="seeds" oninput="calculateFinance()">
+    </div>
+
+    <div class="input-group">
+      <label>Fertilizers (₹)</label>
+      <input type="number" id="fertilizers" oninput="calculateFinance()">
+    </div>
+
+    <div class="input-group">
+      <label>Irrigation (₹)</label>
+      <input type="number" id="irrigation" oninput="calculateFinance()">
+    </div>
+
+    <div class="input-group">
+      <label>Labor (₹)</label>
+      <input type="number" id="labor" oninput="calculateFinance()">
+    </div>
+
+    <div class="input-group">
+      <label>Expected Yield (kg)</label>
+      <input type="number" id="expectedYield" oninput="calculateFinance()">
+    </div>
+
+    <div class="input-group">
+      <label>Actual Yield (kg)</label>
+      <input type="number" id="actualYield" oninput="calculateFinance()">
+    </div>
+
+    <div class="input-group">
+      <label>Selling Price (₹/kg)</label>
+      <input type="number" id="price" oninput="calculateFinance()">
+    </div>
+
+    <div id="financeResult" class="result-box">Enter values to see results...</div>
   </div>
 
   <div class="nav-cards">
@@ -91,6 +168,32 @@ function loadWeather(city=""){
       `;
     } else { info.innerHTML = "❌ Weather data not available"; }
   }).catch(()=>{ document.getElementById("weatherInfo").innerHTML="⚠️ Error fetching weather"; });
+}
+
+function calculateFinance(){
+  let seeds = +document.getElementById("seeds").value || 0;
+  let fert = +document.getElementById("fertilizers").value || 0;
+  let irr = +document.getElementById("irrigation").value || 0;
+  let labor = +document.getElementById("labor").value || 0;
+  let expYield = +document.getElementById("expectedYield").value || 0;
+  let actYield = +document.getElementById("actualYield").value || 0;
+  let price = +document.getElementById("price").value || 0;
+
+  let totalExpense = seeds + fert + irr + labor;
+  let expectedIncome = expYield * price;
+  let actualIncome = actYield * price;
+  let profitLoss = actualIncome - totalExpense;
+
+  let result = `
+    💸 <b>Total Expenses:</b> ₹${totalExpense}<br>
+    📈 <b>Expected Income:</b> ₹${expectedIncome}<br>
+    📊 <b>Actual Income:</b> ₹${actualIncome}<br>
+    ${profitLoss >= 0 
+      ? `✅ <b>Profit:</b> ₹${profitLoss}` 
+      : `❌ <b>Loss:</b> ₹${Math.abs(profitLoss)}`}
+  `;
+
+  document.getElementById("financeResult").innerHTML = result;
 }
 
 window.addEventListener("DOMContentLoaded", ()=>{
